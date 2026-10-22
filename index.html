@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>SIPORA — Sistem Informasi Pemuda dan Olahraga</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,700;0,800;1,800&family=Barlow:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--r:#ED1C24;--c:#161616;--c2:#202020;--l:#2c2c2c;--m:#a8a8a8}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;scroll-padding-top:70px}
+body{background:#000;color:#fff;font:16px/1.6 Barlow,system-ui,sans-serif}
+h1,h2,h3,.logo,.stats b,.dl{font-family:'Barlow Condensed',Impact,sans-serif;text-transform:uppercase}
+h2{font-size:clamp(38px,5vw,64px);font-weight:800;line-height:1;margin-bottom:32px}
+h3{font-size:24px;font-weight:700;line-height:1.1;margin-bottom:6px}
+.m,small{color:var(--m)}
+a:focus-visible,button:focus-visible{outline:2px solid #fff;outline-offset:3px}
+header{position:sticky;top:0;z-index:9;display:flex;align-items:center;gap:28px;height:60px;padding:0 5vw;background:#000d;backdrop-filter:blur(10px);border-bottom:1px solid var(--l)}
+.logo{font-size:30px;font-weight:800;letter-spacing:.08em;text-decoration:none;color:#fff}.logo b{color:var(--r)}
+nav{display:flex;gap:22px;margin-left:auto;font-size:14px;font-weight:600}
+nav a{color:var(--m);text-decoration:none}nav a:hover{color:#fff}
+.hero{min-height:88vh;display:flex;flex-direction:column;justify-content:flex-end;padding:80px 5vw 40px;background:radial-gradient(55% 70% at 85% 15%,#ed1c2455,transparent),repeating-linear-gradient(115deg,transparent 0 70px,#ffffff0a 70px 72px)}
+.hero h1{font-size:clamp(56px,11vw,160px);font-weight:800;font-style:italic;line-height:.88;max-width:11ch}
+.hero p{max-width:560px;margin:24px 0 30px;color:var(--m);font-size:18px}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:20px;margin-top:56px;border-top:1px solid var(--l);padding-top:20px}
+.stats b{display:block;font-size:clamp(44px,6vw,80px);line-height:1}.stats span{color:var(--m);font-size:14px}
+.btn{display:inline-block;background:var(--r);color:#fff;border:0;padding:14px 28px;font:700 15px Barlow,sans-serif;letter-spacing:.05em;text-decoration:none;cursor:pointer;clip-path:polygon(0 0,100% 0,100% 68%,calc(100% - 14px) 100%,0 100%)}
+.btn:hover{background:#fff;color:#000}.btn.o{background:none;box-shadow:inset 0 0 0 1px #fff;clip-path:none}
+section{padding:90px 5vw;border-top:1px solid var(--l)}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:2px}
+.card{background:var(--c);border:1px solid var(--l);padding:26px}.card:hover{background:var(--c2);border-color:var(--r)}
+.dl{color:var(--r);font-size:22px;font-weight:700;display:block;margin-bottom:6px}
+.ic{font-size:36px;margin-bottom:12px}
+.two{display:grid;grid-template-columns:2fr 1fr;gap:48px;margin-bottom:40px}
+.bar{display:grid;grid-template-columns:140px 1fr 34px;gap:12px;align-items:center;margin:9px 0;font-size:14px}
+.bar i{height:14px;background:linear-gradient(90deg,var(--r),#ff6a3d);clip-path:polygon(0 0,100% 0,calc(100% - 8px) 100%,0 100%)}
+.tools{display:flex;gap:12px;margin-bottom:16px}.tools>*{flex:1;margin:0!important}
+.at{display:flex;gap:16px;align-items:center}
+.at img,.av{width:64px;height:64px;flex:none;object-fit:cover;clip-path:polygon(0 0,100% 0,100% 72%,72% 100%,0 100%)}
+.av{display:grid;place-items:center;background:var(--r);font:800 32px 'Barlow Condensed'}
+.wrap{overflow-x:auto}table{width:100%;border-collapse:collapse}
+th,td{text-align:left;padding:14px 12px;border-bottom:1px solid var(--l);white-space:nowrap}th{color:var(--m);font-size:14px;font-weight:600}
+tr:hover td{background:var(--c)}
+.gal{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:2px}
+.gi{position:relative;aspect-ratio:4/3;overflow:hidden;background:var(--c)}
+.gi img{width:100%;height:100%;object-fit:cover}
+.gi span{position:absolute;inset:auto 0 0;padding:34px 16px 12px;font-weight:600;background:linear-gradient(transparent,#000d)}
+input,select,textarea{display:block;width:100%;margin:5px 0 16px;padding:12px;background:#0a0a0a;border:1px solid var(--l);color:#fff;font:inherit}
+input:focus,select:focus,textarea:focus{outline:0;border-color:var(--r)}
+label{font-size:14px;color:var(--m)}
+.f{display:grid;grid-template-columns:1fr 1fr;gap:0 16px}.f .w{grid-column:1/-1}
+dialog{margin:auto;width:min(620px,92vw);max-height:92vh;overflow:auto;padding:32px;background:var(--c);color:#fff;border:1px solid var(--r)}
+dialog::backdrop{background:#000c}
+footer{padding:40px 5vw;border-top:1px solid var(--l);color:var(--m);font-size:14px}
+#ts{display:none;position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:#fff;color:#000;padding:14px 24px;font-weight:700;z-index:99;max-width:90vw}
+@media(max-width:1000px){header{flex-direction:column;align-items:flex-start;height:auto;gap:4px;padding-top:10px}nav{margin:0;width:100%;overflow-x:auto;white-space:nowrap;padding:6px 0 12px}html{scroll-padding-top:110px}.two,.f{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<header>
+<a class="logo" href="#">SIPO<b>RA</b></a>
+<nav><a href="#atlet">Atlet</a><a href="#prestasi">Prestasi</a><a href="#event">Event</a><a href="#pemuda">Kepemudaan</a><a href="#organisasi">Organisasi</a><a href="#galeri">Galeri</a><a href="#gor">Fasilitas GOR</a><a href="#booking">Pesan GOR</a></nav>
+</header>
+
+<div class="hero">
+<p class="m" style="margin:0 0 12px">Sistem Informasi Pemuda dan Olahraga</p>
+<h1 id="hj"></h1>
+<p id="hs"></p>
+<div><button class="btn" onclick="dlgA.showModal()">Daftar atlet</button> <a class="btn o" href="#booking">Pesan GOR</a></div>
+<div class="stats" id="st"></div>
+</div>
+
+<section id="atlet">
+<h2>Atlet per cabang olahraga</h2>
+<div class="two"><div id="bars"></div>
+<div><p class="m" style="margin-bottom:18px">Setiap pendaftaran langsung tersimpan ke Google Spreadsheet, lengkap dengan foto di Google Drive. Grafik ini ikut berubah otomatis.</p><button class="btn" onclick="dlgA.showModal()">Daftar sebagai atlet</button></div></div>
+<div class="tools"><input id="q" placeholder="Cari nama atlet" oninput="fa()"><select id="fc" onchange="fa()"></select></div>
+<div class="grid" id="la"></div>
+</section>
+
+<section id="prestasi"><h2>Prestasi atlet</h2><div id="lp"></div></section>
+<section id="event"><h2>Jadwal event</h2><div class="grid" id="le"></div></section>
+<section id="pemuda"><h2>Info kepemudaan</h2><div class="grid" id="lk"></div></section>
+<section id="organisasi"><h2>Organisasi olahraga dan kepemudaan</h2><div id="lo"></div></section>
+
+<section id="galeri"><h2>Galeri prestasi</h2>
+<p style="margin-bottom:20px"><button class="btn o" onclick="dlgG.showModal()">Unggah foto (admin)</button></p>
+<div class="gal" id="lg"></div></section>
+
+<section id="gor"><h2>Fasilitas GOR Junjung Besaoh</h2>
+<div class="grid" id="lf"></div>
+<p class="m" id="gi" style="margin-top:20px"></p></section>
+
+<section id="booking"><h2>Pesan GOR Junjung Besaoh</h2>
+<div class="two">
+<form class="f" onsubmit="kirim(event,'booking')">
+<div class="w"><label>Nama pemesan</label><input name="nama" required></div>
+<div><label>Nomor WhatsApp</label><input name="hp" type="tel" required placeholder="08xxxxxxxxxx"></div>
+<div><label>Tanggal</label><input name="tanggal" type="date" required></div>
+<div><label>Jam mulai</label><input name="mulai" type="time" required></div>
+<div><label>Jam selesai</label><input name="selesai" type="time" required></div>
+<div class="w"><label>Kegiatan</label><input name="keperluan" required placeholder="Latihan futsal, turnamen, dll."></div>
+<div class="w"><button class="btn">Kirim pemesanan</button> <span id="bm"></span></div>
+</form>
+<div><h3>Jadwal terpakai</h3><div id="lb"></div></div>
+</div></section>
+
+<footer id="ft"></footer>
+
+<dialog id="dlgA"><h2 style="font-size:40px">Pendaftaran atlet</h2>
+<form class="f" onsubmit="kirim(event,'atlet')">
+<div class="w"><label>Nama lengkap</label><input name="nama" required></div>
+<div><label>Cabang olahraga</label><select name="cabor" id="cb" required></select></div>
+<div><label>Jenis kelamin</label><select name="jk"><option value="L">Putra</option><option value="P">Putri</option></select></div>
+<div><label>Tanggal lahir</label><input name="tgl" type="date" required></div>
+<div><label>Nomor HP</label><input name="hp" type="tel" required></div>
+<div class="w"><label>Alamat</label><input name="alamat" required></div>
+<div class="w"><label>Foto atlet</label><input name="foto" type="file" accept="image/*"></div>
+<div class="w"><button class="btn">Kirim pendaftaran</button> <button type="button" class="btn o" onclick="dlgA.close()">Batal</button></div>
+</form></dialog>
+
+<dialog id="dlgG"><h2 style="font-size:40px">Unggah foto galeri</h2>
+<form class="f" onsubmit="kirim(event,'galeri')">
+<div class="w"><label>Judul foto</label><input name="judul" required></div>
+<div><label>PIN admin</label><input name="pin" type="password" required></div>
+<div><label>Foto</label><input name="foto" type="file" accept="image/*" required></div>
+<div class="w"><button class="btn">Unggah ke Google Drive</button> <button type="button" class="btn o" onclick="dlgG.close()">Batal</button></div>
+</form></dialog>
+
+<div id="ts"></div>
+<script src="config.js"></script>
+<script>
+const $=s=>document.querySelector(s),esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+let D={};
+const DEMO={Atlet:[{Nama:'Contoh Atlet',Cabor:'Atletik',JK:'L'},{Nama:'Siti Rahma',Cabor:'Bulu Tangkis',JK:'P'},{Nama:'Andi Putra',Cabor:'Atletik',JK:'L'}],Prestasi:[{Atlet:'Siti Rahma',Cabor:'Bulu Tangkis',Event:'Contoh Kejuaraan',Tingkat:'Provinsi',Medali:'Emas',Tahun:'2026'}],Event:[{Tanggal:'2026-12-01',Nama:'Kejuaraan Terbuka',Lokasi:'GOR Junjung Besaoh',Cabor:'Bulu Tangkis',Ket:'Data contoh (mode demo).'}],Fasilitas:[{Nama:'Lapangan indoor',Deskripsi:'Lantai vinyl, tribun penonton',Ikon:'🏟️'}]};
+const T=(k,d)=>((D.Pengaturan||[]).find(r=>r.Kunci==k)||{}).Nilai||d;
+const dt=s=>{const d=new Date(s);return isNaN(d)?null:d};
+const em=n=>`<p class="m">Belum ada data. Isi di Spreadsheet, tab “${n}”.</p>`;
+const L=(n,f)=>(D[n]||[]).length?D[n].map(f).join(''):em(n);
+const td=(...v)=>'<tr>'+v.map(x=>`<td>${esc(x)}</td>`).join('')+'</tr>';
+const tb=(n,h,f)=>(D[n]||[]).length?`<div class="wrap"><table><tr>${h.map(x=>`<th>${x}</th>`).join('')}</tr>${D[n].map(f).join('')}</table></div>`:em(n);
+const md=m=>({emas:'🥇',perak:'🥈',perunggu:'🥉'}[String(m).toLowerCase()]||'')+' '+m;
+
+function render(){
+ const A=D.Atlet||[],c={};A.forEach(a=>c[a.Cabor]=(c[a.Cabor]||0)+1);
+ const ks=Object.entries(c).sort((a,b)=>b[1]-a[1]),mx=ks.length?ks[0][1]:1;
+ D.Event=(D.Event||[]).sort((a,b)=>(dt(a.Tanggal)||0)-(dt(b.Tanggal)||0));
+ D.Booking=(D.Booking||[]).filter(b=>b.Status!='Ditolak');
+ $('#hj').textContent=T('hero_judul','Bangun prestasi daerah dari data atlet');
+ $('#hs').textContent=T('hero_sub','Satu platform untuk data atlet, jadwal event, prestasi, dan layanan GOR Junjung Besaoh.');
+ $('#st').innerHTML=[[A.length,'Atlet terdaftar'],[ks.length,'Cabang olahraga'],[D.Event.length,'Event'],[(D.Prestasi||[]).length,'Prestasi']].map(x=>`<div><b>${x[0]}</b><span>${x[1]}</span></div>`).join('');
+ $('#bars').innerHTML=ks.length?ks.map(([k,v])=>`<div class="bar"><span>${esc(k)}</span><i style="width:${v/mx*100}%"></i><b>${v}</b></div>`).join(''):em('Atlet');
+ fa();
+ $('#lp').innerHTML=tb('Prestasi',['Atlet','Cabor','Event','Tingkat','Medali','Tahun'],r=>td(r.Atlet,r.Cabor,r.Event,r.Tingkat,md(r.Medali),r.Tahun));
+ $('#le').innerHTML=L('Event',r=>{const d=dt(r.Tanggal);return `<div class="card"><span class="dl">${d?d.toLocaleDateString('id-ID',{day:'numeric',month:'long',year:'numeric'}):esc(r.Tanggal)}</span><h3>${esc(r.Nama)}</h3><small>${esc(r.Lokasi)}, ${esc(r.Cabor)}</small><p>${esc(r.Ket)}</p></div>`});
+ $('#lk').innerHTML=L('Kepemudaan',r=>`<div class="card"><span class="dl">${esc(r.Tanggal)}</span><h3>${esc(r.Judul)}</h3><p class="m">${esc(r.Isi)}</p></div>`);
+ $('#lo').innerHTML=tb('Organisasi',['Nama','Jenis','Ketua','Kontak'],r=>td(r.Nama,r.Jenis,r.Ketua,r.Kontak));
+ $('#lg').innerHTML=L('Galeri',r=>`<a class="gi" href="${esc(r.Foto)}" target="_blank" rel="noopener"><img loading="lazy" src="${esc(r.Foto)}" alt="${esc(r.Judul)}"><span>${esc(r.Judul)}</span></a>`);
+ $('#lf').innerHTML=L('Fasilitas',r=>`<div class="card"><div class="ic">${esc(r.Ikon)}</div><h3>${esc(r.Nama)}</h3><p class="m">${esc(r.Deskripsi)}</p></div>`);
+ $('#gi').textContent=T('alamat_gor','Alamat dan jam operasional: isi di tab Pengaturan (kunci alamat_gor).');
+ $('#lb').innerHTML=tb('Booking',['Tanggal','Jam','Status'],r=>td(r.Tanggal,r.Mulai+'–'+r.Selesai,r.Status));
+ $('#ft').textContent='SIPORA — '+T('footer','Sistem Informasi Pemuda dan Olahraga')+' · '+CFG.GOR;
+}
+function fa(){
+ const q=$('#q').value.toLowerCase(),c=$('#fc').value,r=(D.Atlet||[]).filter(a=>(!c||a.Cabor==c)&&String(a.Nama).toLowerCase().includes(q));
+ $('#la').innerHTML=r.length?r.map(a=>`<div class="card at">${a.Foto?`<img src="${esc(a.Foto)}" alt="" loading="lazy">`:`<div class="av">${esc(String(a.Nama)[0]||'?')}</div>`}<div><h3>${esc(a.Nama)}</h3><small>${esc(a.Cabor)}, ${a.JK=='P'?'Putri':'Putra'}</small></div></div>`).join(''):em('Atlet');
+}
+const img=f=>new Promise(r=>{const i=new Image;i.onload=()=>{const s=Math.min(1,900/Math.max(i.width,i.height)),c=document.createElement('canvas');c.width=i.width*s;c.height=i.height*s;c.getContext('2d').drawImage(i,0,0,c.width,c.height);r(c.toDataURL('image/jpeg',.8).split(',')[1])};i.src=URL.createObjectURL(f)});
+function toast(m){const t=$('#ts');t.textContent=m;t.style.display='block';setTimeout(()=>t.style.display='none',6000)}
+async function kirim(e,type){
+ e.preventDefault();
+ if(!CFG.API)return toast('Mode demo: isi CFG.API di config.js agar data tersimpan.');
+ const f=e.target,b=f.querySelector('button.btn:not(.o)'),t=b.textContent,o=Object.fromEntries(new FormData(f)),file=f.foto&&f.foto.files[0];
+ delete o.foto;b.disabled=true;b.textContent='Mengirim…';
+ try{
+  if(file)o.foto=await img(file);
+  const r=await (await fetch(CFG.API,{method:'POST',body:JSON.stringify({type,...o})})).json();
+  toast(r.msg);
+  if(r.ok){
+   if(type=='booking')$('#bm').innerHTML=`<a class="btn o" target="_blank" rel="noopener" href="https://wa.me/${CFG.WA}?text=${encodeURIComponent(`Halo admin ${CFG.GOR}, saya ${o.nama} memesan GOR tanggal ${o.tanggal} jam ${o.mulai}-${o.selesai} untuk ${o.keperluan}.`)}">Konfirmasi lewat WhatsApp</a>`;
+   f.closest('dialog')?.close();f.reset();load();
+  }
+ }catch(x){toast('Gagal terhubung ke server. Coba lagi.')}
+ b.disabled=false;b.textContent=t;
+}
+async function load(){
+ try{D=CFG.API?await (await fetch(CFG.API)).json():DEMO}catch(e){D=DEMO;toast('Gagal memuat data, menampilkan contoh.')}
+ render();
+}
+const cb=CFG.CABOR.map(x=>`<option>${esc(x)}</option>`).join('');
+$('#cb').innerHTML=cb;$('#fc').innerHTML='<option value="">Semua cabang olahraga</option>'+cb;
+$('[name=tanggal]').min=new Date().toISOString().slice(0,10);
+load();
+</script>
+</body>
+</html>
