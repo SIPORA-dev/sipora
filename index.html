@@ -56,6 +56,7 @@ footer{padding:40px 5vw;border-top:1px solid var(--l);color:var(--m);font-size:1
 .pg[hidden]{display:none}.pg{min-height:75vh}
 .bk{display:inline-block;margin-bottom:24px;color:var(--m);text-decoration:none;font-weight:600}.bk:hover{color:#fff}
 a.card{display:block;color:inherit;text-decoration:none;min-height:170px}
+.msg{color:#ff6b6b;font-weight:600}.msg:empty{display:none}
 #ts{display:none;position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:#fff;color:#000;padding:14px 24px;font-weight:700;z-index:99;max-width:90vw}
 @media(max-width:1000px){header{flex-direction:column;align-items:flex-start;height:auto;gap:4px;padding-top:10px}nav{margin:0;width:100%;overflow-x:auto;white-space:nowrap;padding:6px 0 12px}html{scroll-padding-top:110px}.two,.f{grid-template-columns:1fr}}
 </style>
@@ -117,6 +118,7 @@ a.card{display:block;color:inherit;text-decoration:none;min-height:170px}
 <dialog id="dlgA"><h2 style="font-size:40px">Pendaftaran atlet</h2>
 <form class="f" onsubmit="kirim(event,'atlet')">
 <div class="w"><label>Nama lengkap</label><input name="nama" required></div>
+<div class="w"><label>NIK (16 angka, sesuai KTP/KK)</label><input name="nik" inputmode="numeric" pattern="[0-9]{16}" minlength="16" maxlength="16" required autocomplete="off" title="NIK terdiri dari 16 angka" oninput="this.value=this.value.replace(/\D/g,'')"><small>NIK hanya tersimpan di database admin dan tidak tampil di website.</small></div>
 <div><label>Cabang olahraga</label><select name="cabor" id="cb" required></select></div>
 <div><label>Jenis kelamin</label><select name="jk"><option value="L">Putra</option><option value="P">Putri</option></select></div>
 <div><label>Tanggal lahir</label><input name="tgl" type="date" required></div>
@@ -124,6 +126,7 @@ a.card{display:block;color:inherit;text-decoration:none;min-height:170px}
 <div class="w"><label>Alamat</label><input name="alamat" required></div>
 <div class="w"><label>Foto atlet</label><input name="foto" type="file" accept="image/*"></div>
 <div class="w"><button class="btn">Kirim pendaftaran</button> <button type="button" class="btn o" onclick="dlgA.close()">Batal</button></div>
+<p class="msg w"></p>
 </form></dialog>
 
 <dialog id="dlgG"><h2 style="font-size:40px">Unggah foto galeri</h2>
@@ -132,6 +135,7 @@ a.card{display:block;color:inherit;text-decoration:none;min-height:170px}
 <div><label>PIN admin</label><input name="pin" type="password" required></div>
 <div><label>Foto</label><input name="foto" type="file" accept="image/*" required></div>
 <div class="w"><button class="btn">Unggah ke Google Drive</button> <button type="button" class="btn o" onclick="dlgG.close()">Batal</button></div>
+<p class="msg w"></p>
 </form></dialog>
 
 <div id="ts"></div>
@@ -186,16 +190,16 @@ async function kirim(e,type){
  e.preventDefault();
  if(!CFG.API)return toast('Mode demo: isi CFG.API di config.js agar data tersimpan.');
  const f=e.target,b=f.querySelector('button.btn:not(.o)'),t=b.textContent,o=Object.fromEntries(new FormData(f)),file=f.foto&&f.foto.files[0];
- delete o.foto;b.disabled=true;b.textContent='Mengirim…';
+ delete o.foto;const g=f.querySelector('.msg'),say=m=>(g?g.textContent=m:toast(m));if(g)g.textContent='';b.disabled=true;b.textContent='Mengirim…';
  try{
   if(file)o.foto=await img(file);
   const r=await (await fetch(CFG.API,{method:'POST',body:JSON.stringify({type,...o})})).json();
-  toast(r.msg);
+  r.ok?toast(r.msg):say(r.msg);
   if(r.ok){
    if(type=='booking')$('#bm').innerHTML=`<a class="btn o" target="_blank" rel="noopener" href="https://wa.me/${CFG.WA}?text=${encodeURIComponent(`Halo admin ${CFG.GOR}, saya ${o.nama} memesan GOR tanggal ${o.tanggal} jam ${o.mulai}-${o.selesai} untuk ${o.keperluan}.`)}">Konfirmasi lewat WhatsApp</a>`;
    f.closest('dialog')?.close();f.reset();load();
   }
- }catch(x){toast('Gagal terhubung ke server. Coba lagi.')}
+ }catch(x){say('Gagal terhubung ke server. Coba lagi.')}
  b.disabled=false;b.textContent=t;
 }
 async function load(){
