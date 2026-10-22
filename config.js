@@ -5,3 +5,4 @@ const CFG = {
   GOR: "GOR Junjung Besaoh",
   CABOR: ["Atletik","Sepak Bola","Futsal","Bola Voli","Bulu Tangkis","Sepak Takraw","Pencak Silat","Karate","Taekwondo","Tinju","Renang","Catur","Tenis Meja","Panahan","Angkat Besi","Basket"]
 };
+ 
