@@ -19,7 +19,7 @@ a:focus-visible,button:focus-visible{outline:2px solid #fff;outline-offset:3px}
 header{position:sticky;top:0;z-index:9;display:flex;align-items:center;gap:28px;height:60px;padding:0 5vw;background:#000d;backdrop-filter:blur(10px);border-bottom:1px solid var(--l)}
 .logo{font-size:30px;font-weight:800;letter-spacing:.08em;text-decoration:none;color:#fff}.logo b{color:var(--r)}
 nav{display:flex;gap:22px;margin-left:auto;font-size:14px;font-weight:600}
-nav a{color:var(--m);text-decoration:none}nav a:hover{color:#fff}
+nav a{color:var(--m);text-decoration:none;padding:8px 0;border-bottom:2px solid transparent}nav a.on{color:#fff;border-color:var(--r)}nav a:hover{color:#fff}
 .hero{min-height:88vh;display:flex;flex-direction:column;justify-content:flex-end;padding:80px 5vw 40px;background:radial-gradient(55% 70% at 85% 15%,#ed1c2455,transparent),repeating-linear-gradient(115deg,transparent 0 70px,#ffffff0a 70px 72px)}
 .hero h1{font-size:clamp(56px,11vw,160px);font-weight:800;font-style:italic;line-height:.88;max-width:11ch}
 .hero p{max-width:560px;margin:24px 0 30px;color:var(--m);font-size:18px}
@@ -53,25 +53,31 @@ label{font-size:14px;color:var(--m)}
 dialog{margin:auto;width:min(620px,92vw);max-height:92vh;overflow:auto;padding:32px;background:var(--c);color:#fff;border:1px solid var(--r)}
 dialog::backdrop{background:#000c}
 footer{padding:40px 5vw;border-top:1px solid var(--l);color:var(--m);font-size:14px}
+.pg[hidden]{display:none}.pg{min-height:75vh}
+.bk{display:inline-block;margin-bottom:24px;color:var(--m);text-decoration:none;font-weight:600}.bk:hover{color:#fff}
+a.card{display:block;color:inherit;text-decoration:none;min-height:170px}
 #ts{display:none;position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:#fff;color:#000;padding:14px 24px;font-weight:700;z-index:99;max-width:90vw}
 @media(max-width:1000px){header{flex-direction:column;align-items:flex-start;height:auto;gap:4px;padding-top:10px}nav{margin:0;width:100%;overflow-x:auto;white-space:nowrap;padding:6px 0 12px}html{scroll-padding-top:110px}.two,.f{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
 <header>
-<a class="logo" href="#">SIPO<b>RA</b></a>
-<nav><a href="#atlet">Atlet</a><a href="#prestasi">Prestasi</a><a href="#event">Event</a><a href="#pemuda">Kepemudaan</a><a href="#organisasi">Organisasi</a><a href="#galeri">Galeri</a><a href="#gor">Fasilitas GOR</a><a href="#booking">Pesan GOR</a></nav>
+<a class="logo" href="#/">SIPO<b>RA</b></a>
+<nav><a href="#/atlet">Atlet</a><a href="#/prestasi">Prestasi</a><a href="#/event">Event</a><a href="#/pemuda">Kepemudaan</a><a href="#/organisasi">Organisasi</a><a href="#/galeri">Galeri</a><a href="#/gor">Fasilitas GOR</a><a href="#/booking">Pesan GOR</a></nav>
 </header>
 
+<div class="pg" id="beranda">
 <div class="hero">
 <p class="m" style="margin:0 0 12px">Sistem Informasi Pemuda dan Olahraga</p>
 <h1 id="hj"></h1>
 <p id="hs"></p>
-<div><button class="btn" onclick="dlgA.showModal()">Daftar atlet</button> <a class="btn o" href="#booking">Pesan GOR</a></div>
+<div><button class="btn" onclick="dlgA.showModal()">Daftar atlet</button> <a class="btn o" href="#/booking">Pesan GOR</a></div>
 <div class="stats" id="st"></div>
 </div>
+<section><h2>Jelajahi SIPORA</h2><div class="grid" id="mn"></div></section>
+</div>
 
-<section id="atlet">
+<section class="pg" id="atlet" hidden>
 <h2>Atlet per cabang olahraga</h2>
 <div class="two"><div id="bars"></div>
 <div><p class="m" style="margin-bottom:18px">Setiap pendaftaran langsung tersimpan ke Google Spreadsheet, lengkap dengan foto di Google Drive. Grafik ini ikut berubah otomatis.</p><button class="btn" onclick="dlgA.showModal()">Daftar sebagai atlet</button></div></div>
@@ -79,20 +85,20 @@ footer{padding:40px 5vw;border-top:1px solid var(--l);color:var(--m);font-size:1
 <div class="grid" id="la"></div>
 </section>
 
-<section id="prestasi"><h2>Prestasi atlet</h2><div id="lp"></div></section>
-<section id="event"><h2>Jadwal event</h2><div class="grid" id="le"></div></section>
-<section id="pemuda"><h2>Info kepemudaan</h2><div class="grid" id="lk"></div></section>
-<section id="organisasi"><h2>Organisasi olahraga dan kepemudaan</h2><div id="lo"></div></section>
+<section class="pg" id="prestasi" hidden><h2>Prestasi atlet</h2><div id="lp"></div></section>
+<section class="pg" id="event" hidden><h2>Jadwal event</h2><div class="grid" id="le"></div></section>
+<section class="pg" id="pemuda" hidden><h2>Info kepemudaan</h2><div class="grid" id="lk"></div></section>
+<section class="pg" id="organisasi" hidden><h2>Organisasi olahraga dan kepemudaan</h2><div id="lo"></div></section>
 
-<section id="galeri"><h2>Galeri prestasi</h2>
+<section class="pg" id="galeri" hidden><h2>Galeri prestasi</h2>
 <p style="margin-bottom:20px"><button class="btn o" onclick="dlgG.showModal()">Unggah foto (admin)</button></p>
 <div class="gal" id="lg"></div></section>
 
-<section id="gor"><h2>Fasilitas GOR Junjung Besaoh</h2>
+<section class="pg" id="gor" hidden><h2>Fasilitas GOR Junjung Besaoh</h2>
 <div class="grid" id="lf"></div>
 <p class="m" id="gi" style="margin-top:20px"></p></section>
 
-<section id="booking"><h2>Pesan GOR Junjung Besaoh</h2>
+<section class="pg" id="booking" hidden><h2>Pesan GOR Junjung Besaoh</h2>
 <div class="two">
 <form class="f" onsubmit="kirim(event,'booking')">
 <div class="w"><label>Nama pemesan</label><input name="nama" required></div>
@@ -142,6 +148,13 @@ const td=(...v)=>'<tr>'+v.map(x=>`<td>${esc(x)}</td>`).join('')+'</tr>';
 const tb=(n,h,f)=>(D[n]||[]).length?`<div class="wrap"><table><tr>${h.map(x=>`<th>${x}</th>`).join('')}</tr>${D[n].map(f).join('')}</table></div>`:em(n);
 const md=m=>({emas:'🥇',perak:'🥈',perunggu:'🥉'}[String(m).toLowerCase()]||'')+' '+m;
 
+const MENU=[['atlet','Atlet','Data atlet dan infografik per cabang olahraga','Atlet'],['prestasi','Prestasi','Capaian atlet di berbagai kejuaraan','Prestasi'],['event','Jadwal event','Kejuaraan dan kegiatan yang akan datang','Event'],['pemuda','Kepemudaan','Informasi dan program kepemudaan','Kepemudaan'],['organisasi','Organisasi','Organisasi olahraga dan kepemudaan','Organisasi'],['galeri','Galeri prestasi','Dokumentasi foto kegiatan dan prestasi','Galeri'],['gor','Fasilitas GOR','Fasilitas GOR Junjung Besaoh','Fasilitas'],['booking','Pesan GOR','Pemesanan lapangan dan jadwal terpakai','Booking']];
+function route(){
+ const h=location.hash.replace(/^#\/?/,'')||'beranda',e=document.getElementById(h),id=e&&e.classList.contains('pg')?h:'beranda';
+ document.querySelectorAll('.pg').forEach(x=>x.hidden=x.id!=id);
+ document.querySelectorAll('nav a').forEach(a=>a.classList.toggle('on',a.getAttribute('href')=='#/'+id));
+ scrollTo({top:0,behavior:'instant'});
+}
 function render(){
  const A=D.Atlet||[],c={};A.forEach(a=>c[a.Cabor]=(c[a.Cabor]||0)+1);
  const ks=Object.entries(c).sort((a,b)=>b[1]-a[1]),mx=ks.length?ks[0][1]:1;
@@ -151,6 +164,7 @@ function render(){
  $('#hs').textContent=T('hero_sub','Satu platform untuk data atlet, jadwal event, prestasi, dan layanan GOR Junjung Besaoh.');
  $('#st').innerHTML=[[A.length,'Atlet terdaftar'],[ks.length,'Cabang olahraga'],[D.Event.length,'Event'],[(D.Prestasi||[]).length,'Prestasi']].map(x=>`<div><b>${x[0]}</b><span>${x[1]}</span></div>`).join('');
  $('#bars').innerHTML=ks.length?ks.map(([k,v])=>`<div class="bar"><span>${esc(k)}</span><i style="width:${v/mx*100}%"></i><b>${v}</b></div>`).join(''):em('Atlet');
+ $('#mn').innerHTML=MENU.map(m=>`<a class="card" href="#/${m[0]}"><span class="dl">${(D[m[3]]||[]).length} data</span><h3>${m[1]}</h3><p class="m">${m[2]}</p></a>`).join('');
  fa();
  $('#lp').innerHTML=tb('Prestasi',['Atlet','Cabor','Event','Tingkat','Medali','Tahun'],r=>td(r.Atlet,r.Cabor,r.Event,r.Tingkat,md(r.Medali),r.Tahun));
  $('#le').innerHTML=L('Event',r=>{const d=dt(r.Tanggal);return `<div class="card"><span class="dl">${d?d.toLocaleDateString('id-ID',{day:'numeric',month:'long',year:'numeric'}):esc(r.Tanggal)}</span><h3>${esc(r.Nama)}</h3><small>${esc(r.Lokasi)}, ${esc(r.Cabor)}</small><p>${esc(r.Ket)}</p></div>`});
@@ -191,6 +205,8 @@ async function load(){
 const cb=CFG.CABOR.map(x=>`<option>${esc(x)}</option>`).join('');
 $('#cb').innerHTML=cb;$('#fc').innerHTML='<option value="">Semua cabang olahraga</option>'+cb;
 $('[name=tanggal]').min=new Date().toISOString().slice(0,10);
+document.querySelectorAll('.pg:not(#beranda)').forEach(x=>x.insertAdjacentHTML('afterbegin','<a class="bk" href="#/">← Beranda</a>'));
+addEventListener('hashchange',route);route();
 load();
 </script>
 </body>
