@@ -168,7 +168,7 @@ function render(){
  const ks=Object.entries(c).sort((a,b)=>b[1]-a[1]),mx=ks.length?ks[0][1]:1;
  D.Event=(D.Event||[]).sort((a,b)=>(dt(a.Tanggal)||0)-(dt(b.Tanggal)||0));
  D.Booking=(D.Booking||[]).filter(b=>b.Status!='Ditolak');
- $('#hj').textContent=T('hero_judul','Bangun prestasi daerah dari atlet');
+ $('#hj').textContent=T('hero_judul','Bangun Daerah Bangun Prestasi');
  $('#hs').textContent=T('hero_sub','Satu platform untuk data atlet, jadwal event, prestasi, dan layanan GOR Junjung Besaoh.');
  $('#st').innerHTML=[[A.length,'Atlet terdaftar'],[ks.length,'Cabang olahraga'],[D.Event.length,'Event'],[(D.Prestasi||[]).length,'Prestasi']].map(x=>`<div><b>${x[0]}</b><span>${x[1]}</span></div>`).join('');
  $('#bars').innerHTML=ks.length?ks.map(([k,v])=>`<div class="bar"><span>${esc(k)}</span><i style="width:${v/mx*100}%"></i><b>${v}</b></div>`).join(''):em('Atlet');
