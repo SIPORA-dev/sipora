@@ -71,6 +71,11 @@ a.card{display:block;color:inherit;text-decoration:none;min-height:170px}
 #ch{position:relative;display:flex;gap:2px;padding:6px;max-width:100%;overflow-x:auto;scrollbar-width:none;background:#ffffff1f;backdrop-filter:blur(20px);border-radius:999px}
 #ch::-webkit-scrollbar{display:none}
 .chip{background:none;border:0;color:#fff;padding:10px 18px;border-radius:999px;font:600 14px Barlow,sans-serif;white-space:nowrap;cursor:pointer;transition:background .25s,color .25s}.chip:hover{background:#ffffff22}.chip.on{background:#fff;color:#000}
+.ho{display:flex;align-items:center}.ho svg{display:block}
+.hero{position:relative}.hero>*:not(.hv){position:relative;z-index:1}
+.hv{position:absolute;right:0;top:0;bottom:170px;width:58%;z-index:0}
+.hn{position:absolute;left:0;right:0;bottom:8px;text-align:center;font:600 18px Barlow,sans-serif;color:var(--m);pointer-events:none}
+@media(max-width:1000px){.hv{position:relative;order:-1;width:100%;height:44vh;min-height:300px;bottom:auto}}
 #ts{display:none;position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:#fff;color:#000;padding:14px 24px;font-weight:700;z-index:99;max-width:90vw}
 @media(max-width:1000px){header{flex-direction:column;align-items:flex-start;height:auto;gap:4px;padding-top:10px}nav{margin:0;width:100%;overflow-x:auto;white-space:nowrap;padding:6px 0 12px}html{scroll-padding-top:110px}.two,.f{grid-template-columns:1fr}}
 </style>
@@ -78,11 +83,12 @@ a.card{display:block;color:inherit;text-decoration:none;min-height:170px}
 <body>
 <header>
 <a class="logo" href="#/">SIPO<b>RA</b></a>
-<nav><a href="#/beranda">Beranda</a><a href="#/atlet">Atlet</a><a href="#/cabor">Cabor 3D</a><a href="#/prestasi">Prestasi</a><a href="#/event">Event</a><a href="#/pemuda">Kepemudaan</a><a href="#/organisasi">Organisasi</a><a href="#/galeri">Galeri</a><a href="#/gor">Fasilitas GOR</a><a href="#/booking">Pesan GOR</a></nav>
+<nav><a class="ho" href="#/beranda" aria-label="Beranda" title="Beranda"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11.5 12 4l9 7.5"/><path d="M5.5 10v10h4.5v-6h4v6h4.5V10"/></svg></a><a href="#/atlet">Atlet</a><a href="#/cabor">Cabor 3D</a><a href="#/prestasi">Prestasi</a><a href="#/event">Event</a><a href="#/pemuda">Kepemudaan</a><a href="#/organisasi">Organisasi</a><a href="#/galeri">Galeri</a><a href="#/gor">Fasilitas GOR</a><a href="#/booking">Pesan GOR</a></nav>
 </header>
 
 <div class="pg" id="beranda">
 <div class="hero">
+<div class="hv" id="hv"><canvas id="cv"></canvas><div class="hn" id="hn"></div></div>
 <p class="m" style="margin:0 0 12px">Sistem Informasi Pemuda dan Olahraga</p>
 <h1 id="hj"></h1>
 <p id="hs"></p>
@@ -103,7 +109,6 @@ a.card{display:block;color:inherit;text-decoration:none;min-height:170px}
 <section class="pg" id="cabor" hidden>
 <div class="stage">
 <div class="hd"><h3 id="cn"></h3><p id="ci"></p><button class="pill" id="cl">Lihat atlet cabang ini</button></div>
-<canvas id="cv"></canvas>
 <div class="sel"><div id="ch"></div></div>
 </div></section>
 
@@ -173,7 +178,7 @@ const td=(...v)=>'<tr>'+v.map(x=>`<td>${esc(x)}</td>`).join('')+'</tr>';
 const tb=(n,h,f)=>(D[n]||[]).length?`<div class="wrap"><table><tr>${h.map(x=>`<th>${x}</th>`).join('')}</tr>${D[n].map(f).join('')}</table></div>`:em(n);
 const md=m=>({emas:'🥇',perak:'🥈',perunggu:'🥉'}[String(m).toLowerCase()]||'')+' '+m;
 
-let V,busy;
+let V,busy,CUR;
 const M=(c,o)=>new THREE.MeshStandardMaterial(Object.assign({color:c,roughness:.45,metalness:.1},o));
 const cyl=(a,b,h,c,n=48)=>new THREE.Mesh(new THREE.CylinderGeometry(a,b,h,n),M(c));
 const sph=(r,c)=>new THREE.Mesh(new THREE.SphereGeometry(r,32,24),M(c));
@@ -202,16 +207,17 @@ const B={
 medali:()=>{const g=add(new THREE.Group(),cyl(1.5,1.5,.2,0xf5c542,64),tor(1.5,.1,0xd9a520),tor(1,.05,0xd9a520)),s=new THREE.Mesh(new THREE.BoxGeometry(.9,1.4,.05),M(0xed1c24));g.children[0].rotation.x=Q;s.position.y=2.1;g.add(s);g.position.y=-.6;return g}
 };
 const RM=matchMedia('(prefers-reduced-motion:reduce)').matches;
+function dock(){if(V){const t=CUR=='cabor'?$('.stage'):$('#hv');if(V.cv.parentNode!=t)t.prepend(V.cv)}}
 function info(){$('#ci').textContent=(D.Atlet||[]).filter(a=>a.Cabor==V.cur).length+' atlet terdaftar · geser untuk memutar'}
 function pick(n){
  V.cur=n;V.k=0;while(V.g.children.length)V.g.remove(V.g.children[0]);
  V.g.add((B[n]||B.medali)());
- $('#cn').textContent=n;info();
+ $('#cn').textContent=$('#hn').textContent=n;info();
  const h=$('.hd'),ch=$('#ch');h.classList.remove('in');void h.offsetWidth;h.classList.add('in');
  [...ch.children].forEach(b=>{const on=b.textContent==n;b.classList.toggle('on',on);if(on)ch.scrollTo({left:b.offsetLeft-ch.clientWidth/2+b.clientWidth/2,behavior:'smooth'})});
 }
 function loop(t){
- requestAnimationFrame(loop);if($('#cabor').hidden)return;
+ requestAnimationFrame(loop);if(!V.cv.offsetParent)return;
  const c=V.cv,w=c.clientWidth,h=c.clientHeight;
  if(c.width!=Math.round(w*V.r.getPixelRatio())){const a=w/h;V.r.setSize(w,h,false);V.cam.aspect=a;V.cam.position.set(0,1.2,Math.max(9,6.4/(.728*a)));V.cam.lookAt(0,.9,0);V.cam.updateProjectionMatrix()}
  V.k+=(1-V.k)*.1;
@@ -230,12 +236,12 @@ async function init3d(){
   r.setPixelRatio(Math.min(devicePixelRatio,2));dl.position.set(3,4,5);rl.position.set(-5,-2,4);
   sh.rotation.x=-Q;sh.position.y=-1.9;g.rotation.x=.2;
   sc.add(g,sh,dl,rl,new THREE.HemisphereLight(0xffffff,0x555555,1.2));
-  V={r,sc,cam,g,sh,cv,d:0,vy:0,k:0};
+  V={r,sc,cam,g,sh,cv,d:0,vy:0,k:0};dock();
   cv.onpointerdown=e=>{V.d=1;V.x=e.clientX;V.vy=0;cv.setPointerCapture(e.pointerId)};
   cv.onpointermove=e=>{if(V.d){V.vy=(e.clientX-V.x)*.01;g.rotation.y+=V.vy;V.x=e.clientX}};
   cv.onpointerup=cv.onpointercancel=()=>V.d=0;
   $('#cl').onclick=()=>{$('#fc').value=V.cur;fa();location.hash='#/atlet'};
-  requestAnimationFrame(loop);pick(CFG.CABOR[0]);
+  requestAnimationFrame(loop);pick(CFG.CABOR[1]||CFG.CABOR[0]);
  }catch(e){$('#ci').textContent='Tampilan 3D tidak dapat dimuat. Periksa koneksi internet lalu muat ulang.'}
  busy=0;
 }
@@ -245,14 +251,14 @@ function route(){
  document.querySelectorAll('.pg').forEach(x=>x.hidden=x.id!=id);
  document.querySelectorAll('nav a').forEach(a=>a.classList.toggle('on',a.getAttribute('href')=='#/'+id));
  scrollTo({top:0,behavior:'instant'});
- if(id=='cabor')init3d();
+ CUR=id;dock();if(id=='beranda'||id=='cabor')init3d();
 }
 function render(){
  const A=D.Atlet||[],c={};A.forEach(a=>c[a.Cabor]=(c[a.Cabor]||0)+1);
  const ks=Object.entries(c).sort((a,b)=>b[1]-a[1]),mx=ks.length?ks[0][1]:1;
  D.Event=(D.Event||[]).sort((a,b)=>(dt(a.Tanggal)||0)-(dt(b.Tanggal)||0));
  D.Booking=(D.Booking||[]).filter(b=>b.Status!='Ditolak');
- $('#hj').textContent=T('hero_judul','Bangun Daerah Bangun Prestasi');
+ $('#hj').textContent=T('hero_judul','Bangun prestasi daerah dari data atlet');
  $('#hs').textContent=T('hero_sub','Satu platform untuk data atlet, jadwal event, prestasi, dan layanan GOR Junjung Besaoh.');
  $('#st').innerHTML=[[A.length,'Atlet terdaftar'],[ks.length,'Cabang olahraga'],[D.Event.length,'Event'],[(D.Prestasi||[]).length,'Prestasi']].map(x=>`<div><b>${x[0]}</b><span>${x[1]}</span></div>`).join('');
  $('#bars').innerHTML=ks.length?ks.map(([k,v])=>`<div class="bar"><span>${esc(k)}</span><i style="width:${v/mx*100}%"></i><b>${v}</b></div>`).join(''):em('Atlet');
@@ -301,6 +307,7 @@ $('[name=tanggal]').min=new Date().toISOString().slice(0,10);
 document.querySelectorAll('.pg:not(#beranda)').forEach(x=>x.insertAdjacentHTML('afterbegin','<a class="bk" href="#/">← Beranda</a>'));
 addEventListener('hashchange',route);route();
 load();
+setInterval(()=>{if(V&&!V.d&&!RM&&V.cv.parentNode.id=='hv'&&V.cv.offsetParent)pick(CFG.CABOR[(CFG.CABOR.indexOf(V.cur)+1)%CFG.CABOR.length])},4500);
 </script>
 </body>
 </html>
