@@ -78,6 +78,7 @@ a.card{display:block;color:inherit;text-decoration:none;min-height:170px}
 @media(max-width:1000px){.hv{position:relative;order:-1;width:100%;height:44vh;min-height:300px;bottom:auto}}
 #ts{display:none;position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:#fff;color:#000;padding:14px 24px;font-weight:700;z-index:99;max-width:90vw}
 @media(max-width:1000px){header{flex-direction:column;align-items:flex-start;height:auto;gap:4px;padding-top:10px}nav{margin:0;width:100%;overflow-x:auto;white-space:nowrap;padding:6px 0 12px}html{scroll-padding-top:110px}.two,.f{grid-template-columns:1fr}}
+#mu{position:fixed;right:16px;bottom:20px;width:46px;height:46px;border-radius:50%;border:0;background:var(--r);color:#fff;font-size:20px;z-index:98;cursor:pointer;box-shadow:0 2px 10px rgba(0,0,0,.5)}#mu.off{background:var(--c2);color:var(--m)}
 </style>
 </head>
 <body>
@@ -101,7 +102,7 @@ a.card{display:block;color:inherit;text-decoration:none;min-height:170px}
 <section class="pg" id="atlet" hidden>
 <h2>Atlet per cabang olahraga</h2>
 <div class="two"><div id="bars"></div>
-<div><p class="m" style="margin-bottom:18px">Setiap pendaftaran langsung tersimpan ke Google Spreadsheet, lengkap dengan foto di Google Drive. Grafik ini ikut berubah otomatis.</p><button class="btn" onclick="dlgA.showModal()">Daftar sebagai atlet</button></div></div>
+<div><button class="btn" onclick="dlgA.showModal()">Daftar sebagai atlet</button></div></div>
 <div class="tools"><input id="q" placeholder="Cari nama atlet" oninput="fa()"><select id="fc" onchange="fa()"></select></div>
 <div class="grid" id="la"></div>
 </section>
@@ -172,7 +173,7 @@ let D={};
 const DEMO={Atlet:[{Nama:'Contoh Atlet',Cabor:'Atletik',JK:'L'},{Nama:'Siti Rahma',Cabor:'Bulu Tangkis',JK:'P'},{Nama:'Andi Putra',Cabor:'Atletik',JK:'L'}],Prestasi:[{Atlet:'Siti Rahma',Cabor:'Bulu Tangkis',Event:'Contoh Kejuaraan',Tingkat:'Provinsi',Medali:'Emas',Tahun:'2026'}],Event:[{Tanggal:'2026-12-01',Nama:'Kejuaraan Terbuka',Lokasi:'GOR Junjung Besaoh',Cabor:'Bulu Tangkis',Ket:'Data contoh (mode demo).'}],Fasilitas:[{Nama:'Lapangan indoor',Deskripsi:'Lantai vinyl, tribun penonton',Ikon:'🏟️'}]};
 const T=(k,d)=>((D.Pengaturan||[]).find(r=>r.Kunci==k)||{}).Nilai||d;
 const dt=s=>{const d=new Date(s);return isNaN(d)?null:d};
-const em=n=>`<p class="m">Belum ada data. Isi di Spreadsheet, tab “${n}”.</p>`;
+const em=n=>`<p class="m">Belum ada data.</p>`;
 const L=(n,f)=>(D[n]||[]).length?D[n].map(f).join(''):em(n);
 const td=(...v)=>'<tr>'+v.map(x=>`<td>${esc(x)}</td>`).join('')+'</tr>';
 const tb=(n,h,f)=>(D[n]||[]).length?`<div class="wrap"><table><tr>${h.map(x=>`<th>${x}</th>`).join('')}</tr>${D[n].map(f).join('')}</table></div>`:em(n);
@@ -308,6 +309,19 @@ document.querySelectorAll('.pg:not(#beranda)').forEach(x=>x.insertAdjacentHTML('
 addEventListener('hashchange',route);route();
 load();
 setInterval(()=>{if(V&&!V.d&&!RM&&V.cv.parentNode.id=='hv'&&V.cv.offsetParent)pick(CFG.CABOR[(CFG.CABOR.indexOf(V.cur)+1)%CFG.CABOR.length])},4500);
+</script>
+<audio id="au" src="tendangan-dari-langit.mp3" loop preload="auto"></audio>
+<button id="mu" class="off" aria-label="Musik" title="Putar/jeda musik">♪</button>
+<script>
+(function(){var a=document.getElementById('au'),b=document.getElementById('mu');
+function on(){b.classList.remove('off')}function off(){b.classList.add('off')}
+a.addEventListener('play',on);a.addEventListener('pause',off);
+b.addEventListener('click',function(){a.paused?a.play().catch(function(){}):a.pause()});
+var evs=['pointerup','touchend','click','keydown'];
+function go(){a.muted=false;a.play().then(function(){evs.forEach(function(e){removeEventListener(e,go,true)})}).catch(function(){})}
+evs.forEach(function(e){addEventListener(e,go,true)});
+a.muted=false;a.play().catch(function(){a.muted=true;a.play().catch(function(){})});
+})();
 </script>
 </body>
 </html>
